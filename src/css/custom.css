@@ -1,0 +1,24 @@
+/**
+ * Custom CSS for SoyaOS docs. The "stone-ground warmth" palette is
+ * applied via CSS variables so dark mode tracks Docusaurus' default
+ * theme tokens.
+ */
+
+:root {
+  --ifm-color-primary: #c8a35a;
+  --ifm-color-primary-dark: #b69147;
+  --ifm-color-primary-darker: #a4823f;
+  --ifm-color-primary-darkest: #886a32;
+  --ifm-color-primary-light: #d2b272;
+  --ifm-color-primary-lighter: #d8bd84;
+  --ifm-color-primary-lightest: #e6d2a8;
+
+  --ifm-background-color: #fbf8f1;
+  --ifm-font-color-base: #1f1d1a;
+}
+
+[data-theme="dark"] {
+  --ifm-color-primary: #d2b272;
+  --ifm-background-color: #1f1d1a;
+  --ifm-font-color-base: #fbf8f1;
+}
