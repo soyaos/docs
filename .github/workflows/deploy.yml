@@ -1,0 +1,51 @@
+name: Deploy to Cloudflare Pages
+
+# Build the Docusaurus site and publish to the Cloudflare Pages project
+# `soyaos-docs`. First push creates the Pages project; subsequent pushes
+# produce a new deployment. The custom domain `docs.soyaos.ai` is bound
+# to that Pages project via the Cloudflare dashboard — see README.md.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  deployments: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build + deploy
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://docs.soyaos.ai
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (Docusaurus)
+        run: npm run build
+
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Docusaurus emits to `build/`. `--branch=main` pins this as a
+          # production deployment rather than a preview.
+          command: pages deploy build --project-name=soyaos-docs --branch=main

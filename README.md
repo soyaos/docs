@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="static/img/logo.png" alt="SoyaOS" width="120" height="120" />
+</p>
+
 # docs
 
 Source for **[docs.soyaos.ai](https://docs.soyaos.ai)** — the SoyaOS
@@ -42,6 +46,24 @@ bun run dev          # http://localhost:3000
 - **Production**: Cloudflare Pages, custom domain `docs.soyaos.ai`.
 - **Build command**: `bun run build` (or `npm run build`).
 - **Output directory**: `build/`.
+
+## Deploy
+
+`main` is auto-deployed to the Cloudflare Pages project `soyaos-docs`
+by `.github/workflows/deploy.yml` on every push. The custom domain
+`docs.soyaos.ai` is bound to that Pages project via the Cloudflare
+dashboard (CNAME `docs` → `soyaos-docs.pages.dev`, "Always Use HTTPS"
+enabled).
+
+Required repo secrets (Settings → Secrets and variables → Actions):
+
+| Secret                  | Notes                                                     |
+| ----------------------- | --------------------------------------------------------- |
+| `CLOUDFLARE_API_TOKEN`  | Pages:Edit (least privilege).                             |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account that owns the Pages project.           |
+
+Rollback: `wrangler pages deployment list --project-name=soyaos-docs`
+and promote a previous deployment from the dashboard.
 
 ## License
 
