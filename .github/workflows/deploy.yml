@@ -1,9 +1,8 @@
 name: Deploy to Cloudflare Pages
 
 # Build the Docusaurus site and publish to the Cloudflare Pages project
-# `soyaos-docs`. First push creates the Pages project; subsequent pushes
-# produce a new deployment. The custom domain `docs.soyaos.ai` is bound
-# to that Pages project via the Cloudflare dashboard — see README.md.
+# `soyaos-docs`. The workflow creates the Pages project when missing,
+# deploys the production branch, and idempotently attaches `docs.soyaos.ai`.
 
 on:
   push:
@@ -42,10 +41,37 @@ jobs:
         run: npm run build
 
       - name: Publish to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4"
+          preCommands: |
+            if ! wrangler pages project list --json | jq -e 'map(select(.name == "soyaos-docs")) | length > 0' >/dev/null; then
+              wrangler pages project create soyaos-docs --production-branch main
+            fi
           # Docusaurus emits to `build/`. `--branch=main` pins this as a
           # production deployment rather than a preview.
           command: pages deploy build --project-name=soyaos-docs --branch=main
+
+      - name: Attach custom domain
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          endpoint="https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/pages/projects/soyaos-docs/domains"
+          if curl --fail --silent --show-error \
+            --header "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+            "${endpoint}" |
+            jq -e '.result | any(.name == "docs.soyaos.ai")' >/dev/null; then
+            echo "docs.soyaos.ai is already attached"
+            exit 0
+          fi
+          curl --fail-with-body --silent --show-error \
+            --request POST \
+            --header "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+            --header "Content-Type: application/json" \
+            --data '{"name":"docs.soyaos.ai"}' \
+            "${endpoint}" |
+            jq -e '.success == true' >/dev/null
