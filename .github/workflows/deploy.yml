@@ -46,7 +46,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: "4"
-          preCommands: wrangler pages project list --json | jq -e 'map(select(.name == "soyaos-docs")) | length > 0' >/dev/null || wrangler pages project create soyaos-docs --production-branch main
+          preCommands: wrangler pages project list --json | jq -e 'map(select(.name == "soyaos-docs")) | length > 0' >/dev/null || npx wrangler pages project create soyaos-docs --production-branch main
           # Docusaurus emits to `build/`. `--branch=main` pins this as a
           # production deployment rather than a preview.
           command: pages deploy build --project-name=soyaos-docs --branch=main
