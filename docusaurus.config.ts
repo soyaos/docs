@@ -5,7 +5,7 @@ import { themes as prismThemes } from "prism-react-renderer";
 const config: Config = {
   title: "SoyaOS Docs",
   tagline: "Agent Operating System — one binary, six editions, three node roles.",
-  favicon: "img/logo.svg",
+  favicon: "img/logo.png",
 
   url: "https://docs.soyaos.ai",
   baseUrl: "/",
@@ -41,10 +41,10 @@ const config: Config = {
   ],
 
   themeConfig: {
-    image: "img/logo.svg",
+    image: "img/logo.png",
     navbar: {
       title: "SoyaOS",
-      logo: { alt: "SoyaOS", src: "img/logo.svg" },
+      logo: { alt: "SoyaOS", src: "img/logo.png" },
       items: [
         { type: "doc", docId: "quickstart", position: "left", label: "Quickstart" },
         { type: "doc", docId: "architecture", position: "left", label: "Architecture" },
