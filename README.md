@@ -4,8 +4,10 @@
 
 # docs
 
-Source for **[docs.soyaos.ai](https://docs.soyaos.ai)** — the SoyaOS
-official documentation, built with [Docusaurus 3](https://docusaurus.io).
+Legacy source for **[docs.soyaos.ai](https://docs.soyaos.ai)**. Public
+documentation now lives at `https://soyaos.ai/<locale>/docs/...`; this
+Cloudflare Pages project preserves old links with path-aware permanent
+redirects from `static/_redirects`.
 
 We chose Docusaurus over Mintlify because the toolchain is open-source —
 we want anyone to be able to spin up a private fork of this site without
@@ -46,6 +48,7 @@ bun run dev          # http://localhost:3000
 - **Production**: Cloudflare Pages, custom domain `docs.soyaos.ai`.
 - **Build command**: `bun run build` (or `npm run build`).
 - **Output directory**: `build/`.
+- **Canonical owner**: `soyaos.ai`; `docs.soyaos.ai` is redirect-only.
 
 ## Deploy
 

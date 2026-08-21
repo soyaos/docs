@@ -6,7 +6,7 @@
   "scripts": {
     "start": "docusaurus start",
     "dev": "docusaurus start",
-    "build": "docusaurus build",
+    "build": "docusaurus build && node scripts/check-redirects.mjs",
     "serve": "docusaurus serve",
     "clear": "docusaurus clear",
     "typecheck": "tsc"
