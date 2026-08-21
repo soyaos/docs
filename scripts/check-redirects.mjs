@@ -24,4 +24,23 @@ for (const locale of ["zh", "zh-hant", "en"]) {
   );
 }
 
+for (const [sourcePath, target] of [
+  ["/zh-Hans", "https://soyaos.ai/zh/docs"],
+  ["/zh", "https://soyaos.ai/zh/docs"],
+  ["/zh-hant", "https://soyaos.ai/zh-hant/docs"],
+  ["/en", "https://soyaos.ai/en/docs"],
+  ["/", "https://soyaos.ai/en/docs"],
+]) {
+  assert(
+    source.includes(`${sourcePath} ${target} 301`),
+    `${sourcePath} does not redirect directly to a slashless canonical URL`,
+  );
+  if (sourcePath !== "/") {
+    assert(
+      source.includes(`${sourcePath}/ ${target} 301`),
+      `${sourcePath}/ does not redirect directly to a slashless canonical URL`,
+    );
+  }
+}
+
 console.log("legacy docs redirect contract verified");

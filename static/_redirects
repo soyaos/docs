@@ -4,15 +4,19 @@
 /llms.txt https://soyaos.ai/llms.txt 301
 
 # Preserve known locale paths while moving legacy documentation.
-/zh-Hans https://soyaos.ai/zh/docs/ 301
+/zh-Hans https://soyaos.ai/zh/docs 301
+/zh-Hans/ https://soyaos.ai/zh/docs 301
 /zh-Hans/* https://soyaos.ai/zh/docs/:splat 301
-/zh https://soyaos.ai/zh/docs/ 301
+/zh https://soyaos.ai/zh/docs 301
+/zh/ https://soyaos.ai/zh/docs 301
 /zh/* https://soyaos.ai/zh/docs/:splat 301
-/zh-hant https://soyaos.ai/zh-hant/docs/ 301
+/zh-hant https://soyaos.ai/zh-hant/docs 301
+/zh-hant/ https://soyaos.ai/zh-hant/docs 301
 /zh-hant/* https://soyaos.ai/zh-hant/docs/:splat 301
-/en https://soyaos.ai/en/docs/ 301
+/en https://soyaos.ai/en/docs 301
+/en/ https://soyaos.ai/en/docs 301
 /en/* https://soyaos.ai/en/docs/:splat 301
 
 # Docusaurus previously served English documents without a locale prefix.
-/ https://soyaos.ai/en/docs/ 301
+/ https://soyaos.ai/en/docs 301
 /* https://soyaos.ai/en/docs/:splat 301
