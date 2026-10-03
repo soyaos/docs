@@ -7,63 +7,49 @@ description: Run soya:echo in five minutes.
 
 # Quickstart
 
-Five minutes from "nothing installed" to a running `soya:echo`.
+SoyaOS is in alpha. The Homebrew tap currently has a placeholder checksum, so
+the installation command previously shown here does not work. The
+`https://soyaos.ai/install` script is also unavailable. Download the
+[v0.1.0-alpha.3 release](https://github.com/soyaos/soyaos/releases/tag/v0.1.0-alpha.3)
+for your operating system and architecture instead.
 
 ## 1. Install
 
+For example, on Apple Silicon:
+
 ```bash
-brew tap soyaos/soyaos
-brew install soyaos
+curl -fL https://github.com/soyaos/soyaos/releases/download/v0.1.0-alpha.3/soyaos-darwin-arm64 -o soyaos
+chmod +x soyaos
 ```
 
 Verify:
 
 ```bash
-soyaos version
+./soyaos version
 ```
 
-## 2. Scaffold
-
-Create a new SoyaPack from the bundled `echo` template:
+## 2. Start Solo
 
 ```bash
-soyaos pack init hello --template echo
-cd hello
+./soyaos start
 ```
 
-This produces a minimal SoyaPack v0 bundle:
+Leave this terminal running. The OpenAI-compatible API listens on
+`127.0.0.1:7474`.
 
-```
-hello/
-├── soyapack.yaml
-├── prompts/
-│   └── reply.md
-└── examples/
-    └── hello.json
-```
+## 3. Run the echo Agent
 
-## 3. Validate
+In another terminal, from the directory containing the binary:
 
 ```bash
-soyaos pack validate .
+./soyaos agent run echo "hello"
 ```
 
-The validator checks the manifest against the SoyaPack v0 schema and
-fails fast on missing capabilities.
+For more commands, run `./soyaos help`. Homebrew's
+[third-party tap trust rule](https://docs.brew.sh/Tap-Trust) also applies after
+the formula is repaired.
 
-## 4. Run
-
-```bash
-soyaos run . --input '{"text":"hi"}'
-```
-
-You should see:
-
-```json
-{ "reply": "hi" }
-```
-
-## 5. What next?
+## 4. What next?
 
 - Read [Architecture](./architecture.md) to understand Planet / Moon / Comet.
 - Pick a deployment shape in [Editions](./editions.md).
